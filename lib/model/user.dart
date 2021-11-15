@@ -25,7 +25,20 @@ class User{
       this.events_url,
       this.received_events_url,
       this.type,
-      this.site_admin);
+      this.site_admin,
+      this.name,
+      this.company,
+      this.blog,
+      this.location,
+      this.email,
+      this.hireable,
+      this.twitter_username,
+      this.public_repos,
+      this.public_gists,
+      this.followers,
+      this.following,
+      this.created_at,
+      this.updated_at);
 
   String login;
   int id;
@@ -45,8 +58,23 @@ class User{
   String received_events_url;
   String type;
   bool site_admin;
+  String? name;
+  String? company;
+  String? blog;
+  String? location;
+  String? email;
+  bool? hireable;
+  String? twitter_username;
+  int? public_repos;
+  int? public_gists;
+  int? followers;
+  int? following;
+  DateTime? created_at;
+  DateTime? updated_at;
+
 
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
 }

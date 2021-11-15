@@ -7,4 +7,10 @@ class UserServiceTask {
            (responce as List).map((item) => User.fromJson(item)).toList()
         );
   }
+
+  Stream getUserDetail(String user) {
+    return ApiService.getInstance().get(url: "users/$user").map((responce) =>
+        User.fromJson(responce)
+    );
+  }
 }

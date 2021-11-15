@@ -25,6 +25,23 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       json['received_events_url'] as String,
       json['type'] as String,
       json['site_admin'] as bool,
+      json['name'] as String?,
+      json['company'] as String?,
+      json['blog'] as String?,
+      json['location'] as String?,
+      json['email'] as String?,
+      json['hireable'] as bool?,
+      json['twitter_username'] as String?,
+      json['public_repos'] as int?,
+      json['public_gists'] as int?,
+      json['followers'] as int?,
+      json['following'] as int?,
+      json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -46,4 +63,17 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'received_events_url': instance.received_events_url,
       'type': instance.type,
       'site_admin': instance.site_admin,
+      'name': instance.name,
+      'company': instance.company,
+      'blog': instance.blog,
+      'location': instance.location,
+      'email': instance.email,
+      'hireable': instance.hireable,
+      'twitter_username': instance.twitter_username,
+      'public_repos': instance.public_repos,
+      'public_gists': instance.public_gists,
+      'followers': instance.followers,
+      'following': instance.following,
+      'created_at': instance.created_at?.toIso8601String(),
+      'updated_at': instance.updated_at?.toIso8601String(),
     };

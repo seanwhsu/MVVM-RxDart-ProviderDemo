@@ -33,55 +33,75 @@ class _GithubUserPage extends State<GithubUserPage> {
         children: [StreamBuilder(
           stream: _viewModel.subject,
           builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-            return ListView.separated(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: NetworkImage(snapshot.data![index].avatar_url),
-                              fit: BoxFit.fill
-                          )
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        snapshot.data![index].login,
-                        style: const TextStyle(
-                            fontSize: 20
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              },
-              padding: const EdgeInsets.all(10),
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider(color: Colors.grey);
-              },
+            return Container(
+              color: Colors.white,
+              child: ListView.separated(
+                itemCount: snapshot.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return getItem(snapshot.data![index].avatar_url, snapshot.data![index].login);
+                },
+                padding: const EdgeInsets.all(10),
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider(color: Colors.grey);
+                },
+              )
             );
           },
         ),
-          StreamBuilder(
-              stream: _viewModel.isLoading,
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Visibility(
-                    visible: snapshot.data!,
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-          ),
+          getLoadingView()
         ],
       )
     );
   }
+
+  Widget getLoadingView() {
+    return StreamBuilder(
+        stream: _viewModel.isLoading,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          return Align(
+            alignment: Alignment.center,
+            child: Visibility(
+              visible: snapshot.data ?? false,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+    );
+  }
+
+  Widget getItem(String imageUrl, String name) {
+    return GestureDetector(
+      child: Container(
+        color: Colors.white,
+        child: Row(
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: NetworkImage(imageUrl),
+                      fit: BoxFit.fill
+                  )
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                name,
+                style: const TextStyle(
+                    fontSize: 20
+                ),
+              ),
+            )
+          ],
+        )
+      ),
+      onTap: () => {
+        Navigator.of(context).pushNamed("user_detail", arguments: name)
+      },
+    );
+  }
+
 }
