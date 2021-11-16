@@ -15,7 +15,6 @@ class UserDetailViewModel extends ChangeNotifier {
   bool isLoading = false;
 
   void getUserDetail({required String user}) {
-    _reset();
     _serviceTask.getUserDetail(user).transform(DoStreamTransformer(
         onData: (res_user) {
           _userDetail = res_user;
@@ -26,11 +25,9 @@ class UserDetailViewModel extends ChangeNotifier {
         },
         onListen: () {
           isLoading = true;
-          notifyListeners();
         },
         onDone: () {
           isLoading = false;
-          notifyListeners();
         }
     )).listen(null);
   }
@@ -40,12 +37,12 @@ class UserDetailViewModel extends ChangeNotifier {
     userName = _userDetail.name ?? "";
     userLogin = _userDetail.login;
     userBlog = _userDetail.blog ?? "";
-    userUrl = _userDetail.url ?? "";
+    userUrl = _userDetail.url;
     userLocation = _userDetail.location ?? "";
     notifyListeners();
   }
 
-  void _reset(){
+  void reset(){
     imageUrl = "";
     userName = "";
     userLogin = "";
@@ -53,7 +50,6 @@ class UserDetailViewModel extends ChangeNotifier {
     userUrl = "";
     userLocation = "";
     isLoading = false;
-    notifyListeners();
   }
 
 }

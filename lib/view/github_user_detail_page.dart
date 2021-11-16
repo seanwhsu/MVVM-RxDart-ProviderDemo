@@ -19,18 +19,17 @@ class _UserDetailPage extends State<UserDetailPage> {
   @override
   void initState() {
     apiLoaded = false;
+
     super.initState();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (!apiLoaded) {
-  //     var user = ModalRoute.of(context)!.settings.arguments.toString();
-  //     Provider.of<UserDetailViewModel>(context).getUserDetail(user: user);
-  //     apiLoaded = true;
-  //   }
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    if (!apiLoaded) {
+      Provider.of<UserDetailViewModel>(context).reset();
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,31 +46,31 @@ class _UserDetailPage extends State<UserDetailPage> {
               viewModel.getUserDetail(user: user);
               apiLoaded = true;
             }
-            return Column(
-              children: [
-                userImage(viewModel.imageUrl),
-                Text(
-                  viewModel.userName,
-                  style: const TextStyle(fontSize: 30),
-                ),
-                Text(viewModel.userLogin,
-                    style:
-                        const TextStyle(fontSize: 20, color: Colors.black38)),
-                getInfo(viewModel),
-                getLoadingView(viewModel.isLoading),
-              ],
-            );
+            if (viewModel.isLoading) {
+              return  getLoadingView();
+            } else {
+              return Column(
+                children: [
+                  userImage(viewModel.imageUrl),
+                  Text(
+                    viewModel.userName,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                  Text(viewModel.userLogin,
+                      style:
+                      const TextStyle(fontSize: 20, color: Colors.black38)),
+                  getInfo(viewModel),
+                ],
+              );
+            }
           },
         ));
   }
 
-  Widget getLoadingView(bool isLoading) {
+  Widget getLoadingView() {
     return Align(
       alignment: Alignment.center,
-      child: Visibility(
-        visible: isLoading,
-        child: CircularProgressIndicator(),
-      ),
+      child: CircularProgressIndicator()
     );
   }
 
@@ -82,12 +81,16 @@ class _UserDetailPage extends State<UserDetailPage> {
         child: Container(
           width: 300,
           height: 300,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  fit: BoxFit.fill, image: NetworkImage(imageUrl))),
+          decoration: ((){
+                if (imageUrl.isNotEmpty) {
+                  return BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.fill, image: NetworkImage(imageUrl)));
+                }
+            }())
+          ),
         ),
-      ),
     );
   }
 
