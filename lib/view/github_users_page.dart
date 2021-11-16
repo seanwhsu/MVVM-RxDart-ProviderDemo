@@ -1,8 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mvvm_rxdart_demo/model/user.dart';
-import 'package:mvvm_rxdart_demo/service/user_service_task.dart';
 import 'package:mvvm_rxdart_demo/view_model/users_view_model.dart';
 
 class GithubUserPage extends StatefulWidget {

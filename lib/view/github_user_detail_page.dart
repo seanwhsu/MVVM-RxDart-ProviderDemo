@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm_rxdart_demo/service/user_service_task.dart';
 import 'package:mvvm_rxdart_demo/view_model/user_detail_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +32,6 @@ class _UserDetailPage extends State<UserDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // var _videModel = Provider.of<UserDetailViewModel>(context);
 
     return Scaffold(
         appBar: AppBar(
